@@ -32,6 +32,7 @@ import InfoIcon from '@material-ui/icons/InfoOutlined';
 import Tooltip from '@material-ui/core/Tooltip';
 import EditIcon from '@material-ui/icons/Edit';
 import { MARKETS } from '@project-serum/serum';
+import MergeType from '@material-ui/icons/MergeType';
 import AddTokenDialog from './AddTokenDialog';
 import ExportAccountDialog from './ExportAccountDialog';
 import SendDialog from './SendDialog';
@@ -50,6 +51,7 @@ import CloseTokenAccountDialog from './CloseTokenAccountButton';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import TokenIcon from './TokenIcon';
 import EditAccountNameDialog from './EditAccountNameDialog';
+import MergeAccountsDialog from './MergeAccountsDialog';
 
 const balanceFormat = new Intl.NumberFormat(undefined, {
   minimumFractionDigits: 4,
@@ -64,6 +66,7 @@ export default function BalancesList() {
   const [showEditAccountNameDialog, setShowEditAccountNameDialog] = useState(
     false,
   );
+  const [showMergeAccounts, setShowMergeAccounts] = useState(false);
   const { accounts, setAccountName } = useWalletSelector();
   const selectedAccount = accounts.find((a) => a.isSelected);
   const serumMarkets = useMemo(() => {
@@ -105,6 +108,11 @@ export default function BalancesList() {
                 </IconButton>
               </Tooltip>
             )}
+          <Tooltip title="Merge Accounts" arrow>
+            <IconButton onClick={() => setShowMergeAccounts(true)}>
+              <MergeType />
+            </IconButton>
+          </Tooltip>
           <Tooltip title="Add Token" arrow>
             <IconButton onClick={() => setShowAddTokenDialog(true)}>
               <AddIcon />
@@ -147,6 +155,10 @@ export default function BalancesList() {
           setAccountName(selectedAccount.selector, name);
           setShowEditAccountNameDialog(false);
         }}
+      />
+      <MergeAccountsDialog
+        open={showMergeAccounts}
+        onClose={() => setShowMergeAccounts(false)}
       />
     </Paper>
   );
